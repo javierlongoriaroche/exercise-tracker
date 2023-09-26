@@ -116,7 +116,7 @@ app.get('/api/users', async (req, res) => {
 app.get('/api/users/:_id/logs', async (req, res) => {
   const userId = req.params._id;
   try {
-    const user =  await User.findById(userId);
+    const user =  await User.findById(userId).populate('log');;
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -142,7 +142,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
       log: log.map(exercise => ({
         description: exercise.description,
         duration: exercise.duration,
-        date: exercise.date.toDateString() // Formato de fecha
+        date: exercise.date// Formato de fecha
       }))
     });
   } catch (err) {
