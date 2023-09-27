@@ -80,7 +80,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
     
-    const formattedDate = new Date(date).toDateString();
+    const formattedDate = date ? new Date(date).toDateString() : new Date().toDateString();
     
     const exercise = new Exercise({ username: user.username, description, duration, date: formattedDate });
     await exercise.save();
