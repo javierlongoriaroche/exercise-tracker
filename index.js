@@ -135,15 +135,17 @@ app.get('/api/users/:_id/logs', async (req, res) => {
       log = log.slice(0, parseInt(limit));
     }
 
+    const formattedLog = log.map(exercise => ({
+      description: exercise.description,
+      duration: exercise.duration,
+      date: new Date(exercise.date).toDateString() // Formato de fecha
+    })); 
+
     return res.json({
       username: user.username,
       _id: user._id,
       count: log.length,
-      log: log.map(exercise => ({
-        description: exercise.description,
-        duration: exercise.duration,
-        date: exercise.date// Formato de fecha
-      }))
+      log: formattedLog
     });
   } catch (err) {
     return res.status(400).json({ error: err.message });
